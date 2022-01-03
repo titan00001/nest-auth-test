@@ -1,18 +1,84 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
-import { AuthGuard } from '@nestjs/passport';
+// import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from 'nest-auth';
+import {
+  GoogleOauthGuard,
+  FacebookTokenOauthGuard,
+  GoogleTokenOauthGuard,
+} from 'nest-auth';
 
-@Controller('google')
+@Controller('')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly authService: AuthService,
+  ) {}
 
-  @Get()
-  @UseGuards(AuthGuard('google'))
+  @Get('google')
+  // @UseGuards(AuthGuard('google'))
+  @UseGuards(GoogleOauthGuard)
   async googleAuth(@Req() req) {}
 
-  @Get('redirect')
-  @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req) {
-    return this.appService.googleLogin(req);
+  @Get('google/redirect')
+  // @UseGuards(AuthGuard('google'))
+  @UseGuards(GoogleOauthGuard)
+  async googleAuthRedirect(@Req() req) {
+    // console.log(req.user);
+    return { user: req.user };
+  }
+
+  // @Get('twitter')
+  // @UseGuards(AuthGuard('twitter'))
+  // async twitterAuth(@Req() req) {}
+
+  // @Get('twitter/redirect')
+  // @UseGuards(AuthGuard('twitter'))
+  // async twitterAuthRedirect(@Req() req) {
+  //   return 'hello from twitter';
+  // }
+
+  // @Get('facebook')
+  // @UseGuards(FacebookOauthGuard)
+  // async facebookAuth(@Req() req) {}
+
+  // @Get('facebook/redirect')
+  // @UseGuards(FacebookOauthGuard)
+  // async facebookAuthRedirect(@Req() req) {
+  //   return 'hello from twitter';
+  // }
+
+  @Get('google-token')
+  // @UseGuards(AuthGuard('google'))
+  @UseGuards(GoogleTokenOauthGuard)
+  async googleTokenAuth(@Req() req) {
+    return req.user;
+  }
+
+  // @Get('google-token/redirect')
+  // // @UseGuards(AuthGuard('google'))
+  // @UseGuards(GoogleOauthGuard)
+  // async googleTokenAuthRedirect(@Req() req) {
+  //   // console.log(req.user);
+  //   return { user: req.user };
+  // }
+
+  @Get('facebook-token')
+  @UseGuards(FacebookTokenOauthGuard)
+  async facebookTokenAuth(@Req() req) {
+    return req.user;
+  }
+
+  // @Get('facebook-token/redirect')
+  // // @UseGuards(AuthGuard('google'))
+  // @UseGuards(FacebookOauthGuard)
+  // async googleTokenAuthRedirect(@Req() req) {
+  //   // console.log(req.user);
+  //   return { user: req.user };
+  // }
+
+  @Get('public')
+  getPublicData() {
+    return 'public data';
   }
 }
