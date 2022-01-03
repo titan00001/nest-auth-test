@@ -6,6 +6,8 @@ import {
   GoogleOauthGuard,
   FacebookTokenOauthGuard,
   GoogleTokenOauthGuard,
+  TwitterOauthGuard,
+  LinkedinOauthGuard,
 } from 'nest-auth';
 
 @Controller('')
@@ -28,15 +30,25 @@ export class AppController {
     return { user: req.user };
   }
 
-  // @Get('twitter')
-  // @UseGuards(AuthGuard('twitter'))
-  // async twitterAuth(@Req() req) {}
+  @Get('twitter')
+  @UseGuards(TwitterOauthGuard)
+  async twitterAuth(@Req() req) {}
 
-  // @Get('twitter/redirect')
-  // @UseGuards(AuthGuard('twitter'))
-  // async twitterAuthRedirect(@Req() req) {
-  //   return 'hello from twitter';
-  // }
+  @Get('twitter/redirect')
+  @UseGuards(TwitterOauthGuard)
+  async twitterAuthRedirect(@Req() req) {
+    return req.user;
+  }
+
+  @Get('linkedin')
+  @UseGuards(LinkedinOauthGuard)
+  async linkedinAuth(@Req() req) {}
+
+  @Get('linkedin/redirect')
+  @UseGuards(LinkedinOauthGuard)
+  async linkedinAuthRedirect(@Req() req) {
+    return req.user;
+  }
 
   // @Get('facebook')
   // @UseGuards(FacebookOauthGuard)
@@ -55,27 +67,12 @@ export class AppController {
     return req.user;
   }
 
-  // @Get('google-token/redirect')
-  // // @UseGuards(AuthGuard('google'))
-  // @UseGuards(GoogleOauthGuard)
-  // async googleTokenAuthRedirect(@Req() req) {
-  //   // console.log(req.user);
-  //   return { user: req.user };
-  // }
-
   @Get('facebook-token')
   @UseGuards(FacebookTokenOauthGuard)
   async facebookTokenAuth(@Req() req) {
     return req.user;
   }
 
-  // @Get('facebook-token/redirect')
-  // // @UseGuards(AuthGuard('google'))
-  // @UseGuards(FacebookOauthGuard)
-  // async googleTokenAuthRedirect(@Req() req) {
-  //   // console.log(req.user);
-  //   return { user: req.user };
-  // }
 
   @Get('public')
   getPublicData() {

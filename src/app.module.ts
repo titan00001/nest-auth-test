@@ -10,20 +10,6 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-// const options = {
-//   strategies: {
-//     google: {
-//       // clientID: process.env.GOOGLE_CLIENT_ID,
-//       // clientSecret: process.env.GOOGLE_SECRET,
-//       clientID:
-//         '1049577978130-8ebuv43uena587ca09v5smomnh158i48.apps.googleusercontent.com',
-//       clientSecret: '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',
-//       callbackURL: 'http://localhost:3000/google/redirect',
-//       scope: ['email', 'profile'],
-//     },
-//   },
-//   userService: UserService,
-// };
 @Module({
   imports: [
     UserModule,
@@ -49,6 +35,12 @@ dotenv.config();
               clientID: process.env.FB_CLIENT_ID,
               clientSecret: process.env.FB_SECRET,
               callbackURL: 'http://localhost:3000/facebook/redirect',
+            },
+            linkedIn: {
+              clientID: process.env.LI_CLIENT_ID,
+              clientSecret: process.env.LI_SECRET,
+              callbackURL: 'http://localhost:3000/linkedin/redirect',
+              scope: ['r_emailaddress', 'r_liteprofile'],
             },
             facebookToken: {
               clientID: process.env.FB_CLIENT_ID,
